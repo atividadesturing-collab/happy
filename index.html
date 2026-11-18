@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f8f7f3">
+  <meta name="description" content="Encontre inspiração para desenhar, criar e aproveitar seu tempo livre no Happy.">
+  <title>Happy — ideias que dão vontade de fazer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      color-scheme: light;
+      --paper: #f8f7f3;
+      --ink: #242820;
+      --muted: #777a70;
+      --line: #e8e7df;
+      --green: #355b49;
+      --green-soft: #e9eee7;
+      --coral: #e9785d;
+      --white: #fff;
+      --shadow: 0 16px 50px rgba(34, 39, 31, .12);
+      font-family: "DM Sans", sans-serif;
+      font-synthesis: none;
+      text-rendering: optimizeLegibility;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--paper); color: var(--ink); min-width: 320px; }
+    button, input { font: inherit; }
+    button { color: inherit; }
+    .topbar { height: 76px; padding: 0 4.4%; display: flex; align-items: center; gap: 34px; border-bottom: 1px solid var(--line); background: rgba(248,247,243,.94); position: sticky; top: 0; z-index: 5; backdrop-filter: blur(14px); }
+    .brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--ink); flex: 0 0 auto; }
+    .brand-mark { width: 35px; height: 35px; border-radius: 12px 12px 12px 4px; background: var(--coral); display: grid; place-items: center; color: white; font: 800 22px/1 "Manrope", sans-serif; transform: rotate(-5deg); }
+    .brand-name { font: 800 23px/1 "Manrope", sans-serif; letter-spacing: 0; }
+    .nav-main { display: flex; gap: 27px; align-items: center; height: 100%; }
+    .nav-link { border: 0; background: none; padding: 8px 0; color: var(--muted); font-weight: 600; cursor: pointer; position: relative; }
+    .nav-link.active, .nav-link:hover { color: var(--ink); }
+    .nav-link.active::after { content: ""; position: absolute; bottom: -27px; height: 2px; left: 0; right: 0; background: var(--green); }
+    .search { height: 44px; max-width: 480px; flex: 1; margin-left: auto; position: relative; }
+    .search svg { position: absolute; left: 15px; top: 13px; color: #777a70; pointer-events: none; }
+    .search input { width: 100%; height: 100%; border: 1px solid transparent; background: #eeede7; border-radius: 24px; padding: 0 18px 0 43px; outline: none; color: var(--ink); }
+    .search input:focus { border-color: #9baa96; background: white; }
+    .avatar { width: 38px; height: 38px; flex: 0 0 auto; border: 0; border-radius: 50%; display: grid; place-items: center; background: #e8c2a9; color: #50392e; font-weight: 700; }
+    main { max-width: 1512px; margin: auto; padding: 35px 4.4% 70px; }
+    .intro { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 26px; }
+    .eyebrow { text-transform: uppercase; letter-spacing: 1.5px; font-size: 10px; font-weight: 700; color: var(--green); margin: 0 0 9px; }
+    h1 { font: 700 clamp(29px, 3vw, 39px)/1.15 "Manrope", sans-serif; letter-spacing: 0; margin: 0; }
+    .subheading { color: var(--muted); margin: 9px 0 0; font-size: 14px; }
+    .create-button { display: inline-flex; align-items: center; gap: 8px; border: 0; border-radius: 24px; background: var(--green); color: white; font-weight: 600; padding: 12px 17px; cursor: pointer; transition: background .2s, transform .2s; white-space: nowrap; }
+    .create-button:hover { background: #274836; transform: translateY(-1px); }
+    .categories { display: flex; gap: 9px; overflow-x: auto; scrollbar-width: none; padding: 2px 0 20px; }
+    .categories::-webkit-scrollbar { display: none; }
+    .category { border: 1px solid var(--line); background: transparent; padding: 9px 15px; white-space: nowrap; border-radius: 20px; cursor: pointer; color: #65695f; font-size: 13px; font-weight: 600; transition: .18s ease; }
+    .category:hover { border-color: #9baa96; color: var(--green); }
+    .category.selected { border-color: var(--green); background: var(--green); color: white; }
+    .feed-heading { display: flex; justify-content: space-between; align-items: center; margin: 2px 0 18px; }
+    .feed-heading h2 { font: 700 16px "Manrope", sans-serif; margin: 0; }
+    .result-count { color: var(--muted); font-size: 12px; }
+    .masonry { columns: 5 205px; column-gap: 17px; }
+    .pin { display: inline-block; vertical-align: top; width: 100%; break-inside: avoid; margin: 0 0 21px; cursor: pointer; position: relative; }
+    .pin-media { position: relative; overflow: hidden; border-radius: 11px; background: #e8e7df; isolation: isolate; }
+    .pin-media img { display: block; width: 100%; height: auto; min-height: 180px; object-fit: cover; transition: transform .45s cubic-bezier(.2,.7,.2,1); }
+    .pin:hover .pin-media img { transform: scale(1.035); }
+    .pin-overlay { position: absolute; inset: 0; opacity: 0; background: linear-gradient(180deg,rgba(0,0,0,.2),transparent 30%,transparent 65%,rgba(0,0,0,.2)); transition: opacity .2s; pointer-events: none; }
+    .pin:hover .pin-overlay, .pin:focus-within .pin-overlay { opacity: 1; }
+    .save-button { position: absolute; top: 11px; right: 11px; border: 0; padding: 10px 14px; border-radius: 22px; background: var(--coral); color: white; font-weight: 700; font-size: 12px; cursor: pointer; opacity: 0; transform: translateY(-4px); transition: opacity .2s, transform .2s, background .2s; }
+    .pin:hover .save-button, .pin:focus-within .save-button, .save-button.saved { opacity: 1; transform: none; }
+    .save-button.saved { background: var(--green); }
+    .pin-info { display: flex; align-items: center; gap: 9px; padding: 10px 2px 0; }
+    .pin-copy { flex: 1; min-width: 0; }
+    .pin-title { font-size: 13px; font-weight: 600; line-height: 1.35; margin: 0; }
+    .pin-author { font-size: 11px; color: var(--muted); margin: 4px 0 0; }
+    .pin-avatar { flex: 0 0 auto; width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; font-size: 10px; font-weight: 700; background: var(--green-soft); color: var(--green); }
+    .empty { display: none; padding: 55px 20px; text-align: center; color: var(--muted); }
+    .empty strong { color: var(--ink); display: block; margin-bottom: 6px; }
+    .toast { position: fixed; bottom: 24px; left: 50%; transform: translate(-50%, 20px); z-index: 10; padding: 12px 18px; color: white; background: var(--ink); border-radius: 24px; font-size: 13px; opacity: 0; pointer-events: none; transition: .22s; }
+    .toast.show { transform: translate(-50%,0); opacity: 1; }
+    .modal-backdrop { display: none; position: fixed; inset: 0; z-index: 8; background: rgba(24,28,23,.4); padding: 20px; align-items: center; justify-content: center; }
+    .modal-backdrop.open { display: flex; }
+    #boardModal.open { z-index: 9; }
+    .modal { width: min(440px,100%); background: var(--paper); border-radius: 14px; box-shadow: var(--shadow); padding: 24px; animation: appear .18s ease-out; }
+    @keyframes appear { from { opacity: 0; transform: translateY(8px) scale(.99); } to { opacity: 1; transform: none; } }
+    .modal-head { display: flex; align-items: start; justify-content: space-between; gap: 20px; margin-bottom: 18px; }
+    .modal-head h2 { font: 700 20px "Manrope",sans-serif; margin: 0; }
+    .modal-head p { color: var(--muted); font-size: 13px; margin: 6px 0 0; }
+    .icon-button { border: 0; background: transparent; cursor: pointer; padding: 4px; color: var(--muted); display: grid; place-items: center; }
+    .board-list { display: grid; gap: 8px; max-height: 240px; overflow: auto; }
+    .board-option { display: flex; align-items: center; gap: 11px; width: 100%; border: 1px solid var(--line); border-radius: 9px; background: white; padding: 11px; text-align: left; cursor: pointer; }
+    .board-option:hover { border-color: #9baa96; }
+    .board-icon { height: 38px; width: 38px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 7px; background: var(--green-soft); color: var(--green); }
+    .board-name { font-weight: 600; font-size: 13px; }
+    .board-sub { font-size: 11px; color: var(--muted); margin-top: 3px; }
+    .new-board { border-top: 1px solid var(--line); margin-top: 17px; padding-top: 17px; display: flex; gap: 8px; }
+    .new-board input { flex: 1; min-width: 0; border: 1px solid var(--line); background: white; border-radius: 8px; padding: 10px 12px; outline: none; }
+    .new-board input:focus { border-color: #9baa96; }
+    .new-board button { border: 0; border-radius: 8px; background: var(--green); color: white; padding: 0 14px; cursor: pointer; font-weight: 600; }
+    .detail-modal { width: min(760px,100%); padding: 0; overflow: hidden; display: grid; grid-template-columns: 1fr 1fr; max-height: min(80vh,700px); }
+    .detail-image { width: 100%; height: 100%; object-fit: cover; min-height: 360px; background: #e8e7df; }
+    .detail-content { padding: 27px; display: flex; flex-direction: column; }
+    .detail-content .modal-head { align-items: start; }
+    .detail-description { color: var(--muted); font-size: 14px; line-height: 1.6; }
+    .detail-save { margin-top: auto; justify-content: center; }
+    @media (min-width: 1500px) { .masonry { columns: 6 205px; } }
+    @media (max-width: 900px) { .topbar { gap: 20px; padding: 0 3%; } .nav-main { gap: 17px; } .nav-link { font-size: 13px; } .masonry { columns: 4 175px; } main { padding-left: 3%; padding-right: 3%; } }
+    @media (max-width: 640px) { .topbar { height: 64px; gap: 14px; padding: 0 16px; } .brand-name { font-size: 20px; } .brand-mark { width: 31px; height: 31px; font-size: 20px; } .nav-main { display: none; } .search { height: 40px; } .search input { padding-left: 38px; font-size: 13px; } .search svg { left: 12px; top: 11px; } .avatar { display: none; } main { padding: 27px 16px 45px; } .intro { align-items: start; margin-bottom: 22px; } .intro .subheading { max-width: 250px; line-height: 1.5; } .create-button { width: 40px; height: 40px; padding: 0; justify-content: center; font-size: 0; flex: 0 0 auto; } .create-button svg { width: 19px; } .masonry { columns: 2 135px; column-gap: 12px; } .pin { margin-bottom: 16px; } .pin-media { border-radius: 9px; } .pin-info { padding-top: 7px; gap: 6px; } .pin-title { font-size: 12px; } .pin-author { font-size: 10px; } .pin-avatar { width: 23px; height: 23px; } .save-button { opacity: 1; transform: none; top: 7px; right: 7px; padding: 8px 11px; } .detail-modal { display: block; overflow-y: auto; max-height: 88vh; } .detail-image { height: 300px; min-height: 0; display: block; } .detail-content { min-height: 220px; padding: 20px; } }
+    @media (prefers-reduced-motion: reduce) { *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; } }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Happy, início" id="homeLink"><span class="brand-mark" aria-hidden="true">h</span><span class="brand-name">happy</span></a>
+    <nav class="nav-main" aria-label="Navegação principal">
+      <button class="nav-link active" data-view="explore">Explorar</button>
+      <button class="nav-link" data-view="saved">Salvos</button>
+    </nav>
+    <label class="search" aria-label="Buscar inspirações">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m16 16 4 4"/></svg>
+      <input id="searchInput" type="search" placeholder="Busque uma ideia, um tema..." autocomplete="off">
+    </label>
+    <button class="avatar" aria-label="Perfil">H</button>
+  </header>
+  <main>
+    <section class="intro" aria-labelledby="pageTitle">
+      <div><p class="eyebrow">Seu cantinho criativo</p><h1 id="pageTitle">Ideias que dão vontade de fazer.</h1><p class="subheading" id="pageSubtitle">Um achado por vez, sem pressa.</p></div>
+      <button class="create-button" id="createBoard"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg>Criar pasta</button>
+    </section>
+    <nav class="categories" aria-label="Categorias" id="categories"></nav>
+    <section aria-label="Inspirações">
+      <div class="feed-heading"><h2 id="feedTitle">Para despertar ideias</h2><span class="result-count" id="resultCount"></span></div>
+      <div class="masonry" id="feed"></div>
+      <div class="empty" id="emptyState"><strong>Nada por aqui ainda.</strong><span>Experimente outra busca ou explore uma categoria diferente.</span></div>
+    </section>
+  </main>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <div class="modal-backdrop" id="boardModal" role="dialog" aria-modal="true" aria-labelledby="boardModalTitle">
+    <div class="modal"><div class="modal-head"><div><h2 id="boardModalTitle">Suas pastas</h2><p id="boardModalSubtitle">Escolha onde guardar esta ideia.</p></div><button class="icon-button close-modal" aria-label="Fechar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m18 6-12 12M6 6l12 12"/></svg></button></div><div class="board-list" id="boardList"></div><form class="new-board" id="newBoardForm"><input id="newBoardInput" placeholder="Nome da nova pasta" maxlength="36" aria-label="Nome da nova pasta"><button type="submit">Criar</button></form></div>
+  </div>
+  <div class="modal-backdrop" id="detailModal" role="dialog" aria-modal="true" aria-label="Detalhes da inspiração"><div class="modal detail-modal"><img class="detail-image" id="detailImage" alt=""><div class="detail-content"><div class="modal-head"><div><p class="eyebrow" id="detailCategory"></p><h2 id="detailTitle"></h2></div><button class="icon-button close-modal" aria-label="Fechar"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="m18 6-12 12M6 6l12 12"/></svg></button></div><p class="detail-description" id="detailDescription"></p><p class="pin-author" id="detailAuthor"></p><button class="create-button detail-save" id="detailSave">Salvar inspiração</button></div></div></div>
+  <script>
+    const inspirations = [
+      { id: "p1", title: "Um caderno, uma tarde e nenhuma pressa", author: "Lia Martins", avatar: "L", category: "Desenho", color: "#d5a28a", image: "photo-1513364776144-60967b0f800f", alt: "Materiais de pintura e uma tela colorida" },
+      { id: "p2", title: "Arranjos simples que mudam a mesa", author: "Casa Botânica", avatar: "C", category: "Casa", color: "#c2cfb7", image: "photo-1490750967868-88aa4486c946", alt: "Flores frescas em tons delicados" },
+      { id: "p3", title: "Cerâmica feita à mão: formas orgânicas", author: "Ateliê Miúdo", avatar: "A", category: "Feito à mão", color: "#d9b9a2", image: "photo-1493106641515-6b5631de4bb9", alt: "Peças de cerâmica artesanal" },
+      { id: "p4", title: "Cores para guardar no bolso", author: "Nina Costa", avatar: "N", category: "Desenho", color: "#e4c176", image: "photo-1513364776144-60967b0f800f", alt: "Pincéis e tintas sobre a mesa" },
+      { id: "p5", title: "Um cantinho de leitura com luz boa", author: "Viver Devagar", avatar: "V", category: "Casa", color: "#c6c1ac", image: "photo-1494438639946-1ebd1d20bf85", alt: "Interior acolhedor com livros e plantas" },
+      { id: "p6", title: "Flores prensadas para um dia chuvoso", author: "Joana Reis", avatar: "J", category: "Feito à mão", color: "#d7aeb1", image: "photo-1490750967868-88aa4486c946", alt: "Flores coloridas em composição delicada" },
+      { id: "p7", title: "Desenhos de observação no café", author: "Rafa Lima", avatar: "R", category: "Desenho", color: "#a9b5b4", image: "photo-1455390582262-044cdead277a", alt: "Caderno aberto para anotações" },
+      { id: "p8", title: "Um domingo que começa no jardim", author: "Quintal de Dentro", avatar: "Q", category: "Lazer", color: "#becb9e", image: "photo-1487530811176-3780de880c2d", alt: "Folhagens e flores em um jardim" },
+      { id: "p9", title: "Recortes, papel e boas ideias", author: "Bia Monteiro", avatar: "B", category: "Feito à mão", color: "#dfb185", image: "photo-1452860606245-08befc0ff44b", alt: "Mesa de trabalho com projetos criativos" },
+      { id: "p10", title: "A beleza de uma mesa descomplicada", author: "Casa Botânica", avatar: "C", category: "Casa", color: "#c9b6a4", image: "photo-1494438639946-1ebd1d20bf85", alt: "Mesa posta com elementos naturais" },
+      { id: "p11", title: "Pinte sem planejar o resultado", author: "Lia Martins", avatar: "L", category: "Desenho", color: "#d5a28a", image: "photo-1460661419201-fd4cecdf8a8b", alt: "Pintura abstrata cheia de cores" },
+      { id: "p12", title: "Pequenos rituais para desacelerar", author: "Viver Devagar", avatar: "V", category: "Lazer", color: "#b3c2b5", image: "photo-1445116572660-236099ec97a0", alt: "Café servido em uma pausa tranquila" },
+      { id: "p13", title: "A cor aparece nos detalhes", author: "Nina Costa", avatar: "N", category: "Estilo", color: "#cc9f91", image: "photo-1490481651871-ab68de25d43d", alt: "Composição de roupas e acessórios" },
+      { id: "p14", title: "Pausa para olhar o que floresce", author: "Joana Reis", avatar: "J", category: "Lazer", color: "#d7aeb1", image: "photo-1470252649378-9c29740c9fa8", alt: "Luz suave de manhã entre plantas" },
+      { id: "p15", title: "Ideias rabiscadas sem compromisso", author: "Rafa Lima", avatar: "R", category: "Desenho", color: "#a9b5b4", image: "photo-1455390582262-044cdead277a", alt: "Caderno com ideias e anotações" }
+    ];
+    const categories = ["Tudo", "Desenho", "Feito à mão", "Casa", "Lazer", "Estilo"];
+    const imageUrl = (id) => `https://images.unsplash.com/${id}?auto=format&fit=crop&w=720&q=82`;
+    const readStore = (key, fallback) => { try { const value = JSON.parse(localStorage.getItem(key)); return value ?? fallback; } catch { return fallback; } };
+    let boards = readStore("happy-boards", ["Ideias para desenhar", "Dias de lazer", "Casa com afeto"]);
+    let saved = readStore("happy-saved", {});
+    let activeCategory = "Tudo";
+    let activeView = "explore";
+    let pendingPin = null;
+    let detailPin = null;
+    let toastTimer;
+    const feed = document.querySelector("#feed");
+    const categoryNav = document.querySelector("#categories");
+    const searchInput = document.querySelector("#searchInput");
+    const toast = document.querySelector("#toast");
+
+    function persist() {
+      localStorage.setItem("happy-boards", JSON.stringify(boards));
+      localStorage.setItem("happy-saved", JSON.stringify(saved));
+    }
+    function showToast(message) {
+      toast.textContent = message;
+      toast.classList.add("show");
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => toast.classList.remove("show"), 2200);
+    }
+    function renderCategories() {
+      categoryNav.innerHTML = categories.map((category) => `<button class="category${category === activeCategory ? " selected" : ""}" data-category="${category}" aria-pressed="${category === activeCategory}">${category}</button>`).join("");
+    }
+    function renderFeed() {
+      const query = searchInput.value.trim().toLocaleLowerCase("pt-BR");
+      const visible = inspirations.filter((pin) => {
+        const inView = activeView !== "saved" || Boolean(saved[pin.id]);
+        const inCategory = activeCategory === "Tudo" || pin.category === activeCategory;
+        const matches = !query || `${pin.title} ${pin.category} ${pin.author}`.toLocaleLowerCase("pt-BR").includes(query);
+        return inView && inCategory && matches;
+      });
+      document.querySelector("#feedTitle").textContent = activeView === "saved" ? "Suas inspirações salvas" : activeCategory === "Tudo" ? "Para despertar ideias" : `Inspirações em ${activeCategory.toLocaleLowerCase("pt-BR")}`;
+      document.querySelector("#resultCount").textContent = `${visible.length} ${visible.length === 1 ? "ideia" : "ideias"}`;
+      document.querySelector("#emptyState").style.display = visible.length ? "none" : "block";
+      feed.innerHTML = visible.map((pin) => `<article class="pin" data-pin="${pin.id}" tabindex="0" aria-label="${pin.title}, por ${pin.author}"><div class="pin-media"><img src="${imageUrl(pin.image)}" alt="${pin.alt}" loading="lazy" style="background:${pin.color}"><span class="pin-overlay"></span><button class="save-button${saved[pin.id] ? " saved" : ""}" data-save="${pin.id}" aria-label="${saved[pin.id] ? "Salvo em " + saved[pin.id] : "Salvar"}">${saved[pin.id] ? "Salvo" : "Salvar"}</button></div><div class="pin-info"><span class="pin-avatar" style="background:${pin.color}">${pin.avatar}</span><div class="pin-copy"><p class="pin-title">${pin.title}</p><p class="pin-author">${pin.author}</p></div></div></article>`).join("");
+    }
+    function openBoardModal(pin) {
+      pendingPin = pin;
+      document.querySelector("#boardModalTitle").textContent = pin ? "Salvar inspiração" : "Criar uma pasta";
+      document.querySelector("#boardModalSubtitle").textContent = pin ? `Escolha onde guardar “${pin.title}”.` : "Organize as ideias que você quer encontrar depois.";
+      document.querySelector("#newBoardForm").style.display = "flex";
+      document.querySelector("#boardList").style.display = pin ? "grid" : "none";
+      document.querySelector("#boardList").innerHTML = boards.map((board) => `<button class="board-option" data-board="${board.replaceAll('"', '&quot;')}"><span class="board-icon"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 7a2 2 0 0 1 2-2h5l2 2h7a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg></span><span><span class="board-name">${board}</span><span class="board-sub">${Object.values(saved).filter((value) => value === board).length} inspirações</span></span></button>`).join("");
+      document.querySelector("#boardModal").classList.add("open");
+      document.querySelector("#newBoardInput").value = "";
+    }
+    function toggleSave(pin) {
+      if (saved[pin.id]) {
+        delete saved[pin.id];
+        persist();
+        renderFeed();
+        showToast("Inspiração removida dos salvos");
+      } else {
+        openBoardModal(pin);
+      }
+    }
+    function openDetail(pin) {
+      detailPin = pin;
+      document.querySelector("#detailImage").src = imageUrl(pin.image);
+      document.querySelector("#detailImage").alt = pin.alt;
+      document.querySelector("#detailCategory").textContent = pin.category;
+      document.querySelector("#detailTitle").textContent = pin.title;
+      document.querySelector("#detailDescription").textContent = `Uma inspiração de ${pin.author} para guardar, adaptar e fazer do seu jeito. Ideias boas não precisam de ocasião especial.`;
+      document.querySelector("#detailAuthor").textContent = `Por ${pin.author}`;
+      const saveButton = document.querySelector("#detailSave");
+      saveButton.textContent = saved[pin.id] ? `Salvo em ${saved[pin.id]}` : "Salvar inspiração";
+      document.querySelector("#detailModal").classList.add("open");
+    }
+    categoryNav.addEventListener("click", (event) => {
+      const button = event.target.closest("[data-category]");
+      if (!button) return;
+      activeCategory = button.dataset.category;
+      renderCategories();
+      renderFeed();
+    });
+    searchInput.addEventListener("input", renderFeed);
+    document.querySelectorAll(".nav-link").forEach((button) => button.addEventListener("click", () => {
+      activeView = button.dataset.view;
+      document.querySelectorAll(".nav-link").forEach((link) => link.classList.toggle("active", link === button));
+      document.querySelector("#pageSubtitle").textContent = activeView === "saved" ? "Suas ideias favoritas, todas no mesmo lugar." : "Um achado por vez, sem pressa.";
+      renderFeed();
+    }));
+    document.querySelector("#homeLink").addEventListener("click", (event) => {
+      event.preventDefault();
+      activeView = "explore";
+      activeCategory = "Tudo";
+      searchInput.value = "";
+      document.querySelectorAll(".nav-link").forEach((link) => link.classList.toggle("active", link.dataset.view === "explore"));
+      document.querySelector("#pageSubtitle").textContent = "Um achado por vez, sem pressa.";
+      renderCategories();
+      renderFeed();
+    });
+    feed.addEventListener("click", (event) => {
+      const pinElement = event.target.closest("[data-pin]");
+      if (!pinElement) return;
+      const pin = inspirations.find((item) => item.id === pinElement.dataset.pin);
+      if (event.target.closest("[data-save]")) {
+        event.stopPropagation();
+        toggleSave(pin);
+      } else openDetail(pin);
+    });
+    feed.addEventListener("keydown", (event) => {
+      if ((event.key === "Enter" || event.key === " ") && event.target.matches(".pin")) {
+        event.preventDefault();
+        openDetail(inspirations.find((pin) => pin.id === event.target.dataset.pin));
+      }
+    });
+    document.querySelector("#boardList").addEventListener("click", (event) => {
+      const option = event.target.closest("[data-board]");
+      if (!option || !pendingPin) return;
+      saved[pendingPin.id] = option.dataset.board;
+      persist();
+      document.querySelector("#boardModal").classList.remove("open");
+      renderFeed();
+      if (detailPin?.id === pendingPin.id) document.querySelector("#detailSave").textContent = `Salvo em ${option.dataset.board}`;
+      showToast(`Salvo em “${option.dataset.board}”`);
+      pendingPin = null;
+    });
+    document.querySelector("#newBoardForm").addEventListener("submit", (event) => {
+      event.preventDefault();
+      const input = document.querySelector("#newBoardInput");
+      const name = input.value.trim();
+      if (!name || boards.some((board) => board.toLocaleLowerCase("pt-BR") === name.toLocaleLowerCase("pt-BR"))) return;
+      boards.push(name);
+      persist();
+      if (pendingPin) {
+        saved[pendingPin.id] = name;
+        persist();
+        document.querySelector("#boardModal").classList.remove("open");
+        renderFeed();
+        showToast(`Pasta criada e inspiração salva`);
+        pendingPin = null;
+      } else {
+        document.querySelector("#boardModal").classList.remove("open");
+        showToast(`Pasta “${name}” criada`);
+      }
+    });
+    document.querySelector("#createBoard").addEventListener("click", () => openBoardModal(null));
+    document.querySelector("#detailSave").addEventListener("click", () => detailPin && toggleSave(detailPin));
+    document.querySelectorAll(".close-modal").forEach((button) => button.addEventListener("click", () => button.closest(".modal-backdrop").classList.remove("open")));
+    document.querySelectorAll(".modal-backdrop").forEach((backdrop) => backdrop.addEventListener("click", (event) => { if (event.target === backdrop) backdrop.classList.remove("open"); }));
+    document.addEventListener("keydown", (event) => { if (event.key === "Escape") document.querySelectorAll(".modal-backdrop.open").forEach((modal) => modal.classList.remove("open")); });
+    renderCategories();
+    renderFeed();
+  </script>
+</body>
+</html>
